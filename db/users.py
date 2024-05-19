@@ -9,12 +9,10 @@ class Users(Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(nullable=True)
-    tg_id: Mapped[int] = mapped_column(unique=True, nullable=False)
 
 
 class SUsers(BaseModel):
     id: int
-    tg_id: int
     username: str
 
     class Config:
@@ -30,8 +28,8 @@ class UsersDAO:
             return res.scalars().all()
 
     @staticmethod
-    async def add(tg_id, username=None):
+    async def add(id, username=None):
         async with async_session_maker() as session:
-            query = insert(Users).values(tg_id=tg_id, username=username)
+            query = insert(Users).values(id=id, username=username)
             await session.execute(query)
             await session.commit()

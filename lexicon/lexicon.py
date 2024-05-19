@@ -5,4 +5,6 @@ LEXICON_RU = {
     "request_topic": "Введите тему встречи",
     "request_time": "Принято, выберите время встречи",
     "no_schedule": "Нет доступного времени",
+    'cancel_request': "Заявка отменена",
+    "success_request": "Ваша заявка принята в обработку"
 }
