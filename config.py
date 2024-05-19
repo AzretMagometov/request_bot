@@ -1,12 +1,13 @@
-from pydantic_settings import BaseSettings
+from pydantic.v1 import BaseSettings
 
 
 class Settings(BaseSettings):
     token: str
-    admins: list
+    admins: list[int]
 
     class Config:
         env_file = '.env'
 
 
-settings = Settings()
+def create_settings() -> Settings:
+    return Settings()

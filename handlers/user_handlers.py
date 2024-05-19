@@ -1,16 +1,14 @@
 from aiogram import Router
+from aiogram.filters import CommandStart
 from aiogram.types import Message
-from aiogram.filters import Command, CommandStart
-
-from config import settings
 
 router = Router()
 
 
 @router.message(CommandStart())
-async def start_command_handler(message: Message):
+async def start_command_handler(message: Message, admins: list[int]):
     await message.answer(text="Hello")
-    for admin in settings.admins:
-        await message.bot.send_message(admin, text=f"Новый пользователь\n"
-                                                   f"@{message.from_user.username}\n"
-                                                   f"{message.from_user.full_name}")
+    for admin_id in admins:
+        await message.bot.send_message(chat_id=admin_id, text=f"Новый пользователь\n"
+                                                              f"@{message.from_user.username}\n"
+                                                              f"{message.from_user.full_name}")
