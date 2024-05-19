@@ -10,6 +10,7 @@ from alembic import context
 from config import create_settings
 from db.database import Base
 from db.users import Users
+from db.schedule import Schedule
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
