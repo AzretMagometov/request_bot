@@ -4,8 +4,10 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from db.users import UsersDAO
+from db.schedule import ScheduleDAO
 from lexicon.lexicon import LEXICON_RU
 from states.states import Request
+from keyboards.user_keyboards import create_time_kb
 
 router = Router()
 
@@ -32,4 +34,10 @@ async def request_command_handler(message: Message, state: FSMContext):
 async def request_topic_handler(message: Message, state: FSMContext):
     await state.update_data(topic=message.text)
     await state.set_state(Request.waiting_for_time)
-    await message.answer(text=LEXICON_RU["request_time"])
+
+    schedule = await ScheduleDAO.get(is_reserved=False)
+    if not schedule:
+        await message.answer(text=LEXICON_RU["no_schedule"])
+        return
+    await message.answer(text=LEXICON_RU["request_time"],
+                         reply_markup=create_time_kb(schedule))

@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from pydantic import BaseModel
 from sqlalchemy import select, insert, update, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
@@ -10,15 +10,19 @@ class Schedule(Base):
     __tablename__ = "schedule"
     id: Mapped[int] = mapped_column(primary_key=True)
     topic: Mapped[str] = mapped_column(nullable=True)
-    time: Mapped[date] = mapped_column(nullable=False)
-    client: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    time: Mapped[str] = mapped_column(nullable=False)
+    client: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=True)
     is_reserved: Mapped[bool] = mapped_column(nullable=False, default=False)
+
+    @property
+    def time_as_datetime(self):
+        return datetime.fromisoformat(self.time)
 
 
 class SSchedule(BaseModel):
     id: int
     topic: str
-    time: date
+    time: str
     client: int
     is_reserved: bool
 
