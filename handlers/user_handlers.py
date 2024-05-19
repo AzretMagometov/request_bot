@@ -11,6 +11,6 @@ router = Router()
 async def start_command_handler(message: Message):
     await message.answer(text="Hello")
     for admin in settings.admins:
-        await message.bot.send_message(admin, text=f"Пользователь {message.from_user.username}"
-                                                   f"c именем {message.from_user.full_name} "
-                                                   f"зашел в бота")
+        await message.bot.send_message(admin, text=f"Новый пользователь\n"
+                                                   f"@{message.from_user.username}\n"
+                                                   f"{message.from_user.full_name}")
