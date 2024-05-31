@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import func, DateTime
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase, Mapped, mapped_column
@@ -10,5 +12,5 @@ async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit
 
 
 class Base(DeclarativeBase):
-    created: Mapped[DateTime] = mapped_column(DateTime, default=func.now())
-    updated: Mapped[DateTime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
+    created: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now())
+    updated: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now(), onupdate=func.now())

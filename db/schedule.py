@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
-from sqlalchemy import select, insert, update, ForeignKey
+from sqlalchemy import select, insert, update, ForeignKey, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 
 from db.database import Base, async_session_maker
@@ -10,21 +10,19 @@ class Schedule(Base):
     __tablename__ = "schedule"
     id: Mapped[int] = mapped_column(primary_key=True)
     topic: Mapped[str] = mapped_column(nullable=True)
-    time: Mapped[str] = mapped_column(nullable=False)
+    time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     client: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=True)
     is_reserved: Mapped[bool] = mapped_column(nullable=False, default=False)
-
-    @property
-    def time_as_datetime(self):
-        return datetime.fromisoformat(self.time)
 
 
 class SSchedule(BaseModel):
     id: int
     topic: str
-    time: str
+    time: datetime
     client: int
     is_reserved: bool
+    created: datetime
+    updated: datetime
 
     class Config:
         from_attributes = True

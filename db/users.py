@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 from sqlalchemy import select, insert
 from sqlalchemy.orm import Mapped, mapped_column
@@ -14,6 +16,8 @@ class Users(Base):
 class SUsers(BaseModel):
     id: int
     username: str
+    created: datetime
+    updated: datetime
 
     class Config:
         from_attributes = True
